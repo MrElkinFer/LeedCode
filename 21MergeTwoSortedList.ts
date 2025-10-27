@@ -1,3 +1,5 @@
+/// Ayudado con Claude
+
 // Definition for singly-linked list.
 class ListNode {
   val: number;
@@ -15,68 +17,53 @@ function mergeTwoLists(
   //en caso que alguna o ambas listas sean indefinidas o sus valores fuera de parámetros en la primera iteración:
 
   if (list1?.val === undefined || -100 > list1.val || 100 < list1.val) {
-    console.log("1 Aquí: lista 1");
     return list2;
   }
   if (list2?.val === undefined || -100 > list2.val || 100 < list2.val) {
-    console.log("2 Aquí: lista 2");
     return list1;
   }
 
-  let answer = new ListNode();
-  let ansval = null;
-  let ansnext = null;
-  let standby: ListNode = new ListNode();
+  const answer = new ListNode();
+  let cola: ListNode = answer;
 
-  // se entablecen condiciones iniciales para el primer ciclo:
-  if (list1.val >= list2.val) {
-    ansval = list1.val;
-    ansnext = list1.next;
-    standby = list2;
-  } else {
-    ansval = list2.val;
-    ansnext = list2.next;
-    standby = list1;
-  }
-
-  answer.val = ansval; // paso 0 --> answer(ansval | null)
-
-  //TODO: mirar como definir cuando next sea null en la última lista encadenada
-  for (let i = 0; i < 50 || standby.next === null; i++) {
-    if (ansnext === null) {
-      ansnext.val = 1000;
-      answer.next = new ListNode(1000, null);
-    }
-
-    // Nucleo:
-    if (ansnext.val <= standby.val) {
-      answer.next = ansnext;
-
-      //answer.val = ansval;
-      //answer.next = ansnext; //2
+  while (list1 !== null && list2 !== null) {
+    if (list2.val <= list1.val) {
+      cola.next = list2;
+      list2 = list2?.next;
     } else {
-      answer.val = ansval;
-      answer.next = standby; //2
-      standby = ansnext; //3
+      cola.next = list1;
+      list1 = list1?.next;
     }
-    ansval = answer.val;
-    ansnext = answer.next;
 
-    //console.log(ansnext);
-    //console.log(answer);
+    cola = cola.next;
   }
+  cola.next = list1 !== null ? list1 : list2;
 
-  console.log("aquí");
-  return answer;
+  return answer.next;
 }
 
-let lis14 = new ListNode(5, null);
-let lis12 = new ListNode(3, lis14);
+const anchor = new ListNode();
+let tail = anchor;
+while (list1 !== null && list2 !== null) {
+  if (list1.val <= list2.val) {
+    tail = list1;
+    list1 = list1.next;
+  } else {
+    tail = list2;
+    list2 = list2.next;
+  }
+  tail = tail.next;
+}
+tail.next = list1 !== null ? list1 : list2;
+return anchor.next;
 
-let lis24 = new ListNode(4, null);
-let lis23 = new ListNode(2, lis24);
+let lis14 = new ListNode(55, null);
+let lis12 = new ListNode(23, lis14);
 
-let list2 = new ListNode(1, lis23);
+let lis24 = new ListNode(14, null);
+let lis23 = new ListNode(8, lis24);
+
+let list2 = new ListNode(3, lis23);
 let list1 = new ListNode(1, lis12);
 //let list1 = null;
 //let list2 = null;
