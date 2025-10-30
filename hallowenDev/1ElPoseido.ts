@@ -9,8 +9,6 @@ function translatePossessed(message: string) {
   let segment = Array.from(word.segment(message), (s) => s.segment);
 
   for (let i = 0; i < segment.length; i++) {
-    console.log(segment[i] + " " + i);
-    console.log(newmessage);
     if (segment[i] !== " " || i === segment.length - 1) {
       wrd = segment[i] + wrd;
       if (i === segment.length - 1) {
