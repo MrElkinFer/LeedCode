@@ -1,24 +1,33 @@
+/**Art the Clown 🤡 ha capturado a unas víctimas y las ha sentado en círculo 🎪, numeradas del 0 a N-1, siendo N el número de victimas.
+
+Art, siendo un payaso metódico en su locura, decide hacer un "juego". Empieza en la posición 0 y cuenta K víctimas en sentido horario
+
+(incluyendo a la persona actual en la cuenta). La víctima donde termina la cuenta es eliminada del círculo.
+
+Luego, Art continúa contando K posiciones desde la siguiente persona viva. El proceso se repite hasta que solo queda una persona.
+
+En su retorcida mente, Art quiere saber: ¿Quién será el último sobreviviente?
+
+Implementa la función surviveRoulette(victims, count) que devuelve la posición de la última víctima que sobrevive.
+
+Los parámetros de entrada son:
+
+victims: Número total de víctimas (sentadas en posiciones 0 a n-1)
+count: Número a contar para eliminar a la siguiente víctima */
+
+console.log(surviveRoulette(5, 3));
+
 function surviveRoulette(n: number, k: number): number {
-  if (n === 1) {
-    return 0;
+  const circle = Array.from({ length: n }, (_, i) => 0 + i);
+  let ref = 0;
+  while (circle.length !== 1) {
+    let salto = k - 1 + ref;
+    if (salto >= circle.length) {
+      salto = salto % circle.length;
+    }
+    circle.splice(salto, 1);
+    ref = salto;
   }
 
-  let circle = Array.from({ length: n }, (_, i) => i);
-  let ref = 0;
-
-  do {
-    ref=circle[k]
-    
-    circle.splice(k - 1, 1);
-  } while (circle.length !== 1);
-
-  console.log(circle);
-  return 0;
+  return circle[0];
 }
-
-//surviveRoulette(7, 5);
-
-let array1 = [1, 2, 3, 5];
-let array2 = [1, 2, 3, 4];
-
-console.log(array1.filter((e) => !array2.includes(e)));
